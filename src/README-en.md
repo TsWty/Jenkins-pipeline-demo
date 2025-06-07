@@ -44,6 +44,8 @@
 - **`src refspec main does not match any`**  
   _Cause:_ Local branch was still `master`, GitHub used `main`.  
   _Fix:_  
-  ```bash
-  git branch -m master main
-  git push -u origin main
+```bash
+git branch -m master main
+git push -u origin main
+```
+This resolves the mismatch between local and remote branch names.
