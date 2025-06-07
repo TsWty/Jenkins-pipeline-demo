@@ -25,6 +25,8 @@
 ## Karşılaşılan Hatalar & Çözümler
 - **`src refspec main does not match any`**  
   _master/main uyuşmazlığı →_  
-  ```bash
-  git branch -m master main
-  git push -u origin main
+```bash
+git branch -m master main
+git push -u origin main
+```
+Bu, yereldeki ve uzaktaki dal isimleri arasındaki uyumsuzluğu çözer.
