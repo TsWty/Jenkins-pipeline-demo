@@ -6,6 +6,16 @@ pipeline {
         maven 'Maven3'
     }
 
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+        timestamps()
+    }
+
+    environment {
+        APP_VERSION = "1.0-SNAPSHOT"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -15,20 +25,28 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Linux ajan kullanıyorsan:
-                sh 'mvn clean package -B'
-                // Eğer Windows ajan kullanacaksan, aşağıdakinin yorumunu kaldır:
-                // bat 'mvn clean package -B'
+                sh 'mvn -B clean compile'
             }
         }
 
-        stage('Test') {
+        stage('Unit Test') {
             steps {
-                sh 'mvn test -B'
+                sh 'mvn -B test'
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
 
-        stage('Archive') {
+        stage('Package') {
+            steps {
+                sh "mvn -B package -DskipTests"
+            }
+        }
+
+        stage('Archive Artifact') {
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
@@ -37,10 +55,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build başarılı!'
+            echo '✅ Build successful!'
         }
         failure {
-            echo '❌ Build başarısız!'
+            echo '❌ Build failed!'
         }
     }
 }
