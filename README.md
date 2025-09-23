@@ -1,4 +1,4 @@
-# Jenkins Pipeline Demo
+# Jenkins Pipeline Demo 
 
 This repository contains a minimal Java application with a more detailed Jenkins
 Pipeline. It shows a typical CI/CD flow using Maven and JUnit.
